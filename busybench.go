@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"compress/gzip"
+	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
@@ -38,6 +39,10 @@ func busyworkOnce() {
 	// Throw away the result.
 }
 
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "called %s", r.URL.Path[1:])
+}
+
 func main() {
 	err := profiler.Start(
 		&profiler.Config{
@@ -50,7 +55,8 @@ func main() {
 
 	go busywork()
 
-	httpAddr := "localhost:8080"
+	httpAddr := ":8080"
 	log.Printf("Starting an HTTP server on %s", httpAddr)
+	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(httpAddr, nil))
 }
