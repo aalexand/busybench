@@ -45,7 +45,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	err := profiler.Start(
-		&profiler.Config{
+		profiler.Config{
 			Target:       "busybench",
 			DebugLogging: true,
 		})
