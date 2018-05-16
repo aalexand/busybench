@@ -1,11 +1,15 @@
-FROM golang:1.8
+FROM golang:alpine
 
 WORKDIR /go/src/busybench
 COPY *.go .
 
 EXPOSE 8080
 
-RUN go-wrapper download
-RUN go-wrapper install
+RUN apk update \
+    && apk add --no-cache git \
+    && go get -d ./... \
+    && apk del git
 
-CMD ["go-wrapper", "run"]
+RUN go install ./...
+
+CMD ["busybench"]

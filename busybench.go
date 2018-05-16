@@ -46,8 +46,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	err := profiler.Start(
 		profiler.Config{
-			Target:       "busybench",
-			DebugLogging: true,
+			Service:        "busybench",
+			ServiceVersion: "1.0.0",
+			DebugLogging:   true,
 		})
 	if err != nil {
 		log.Fatalf("Failed to start the profiler: %v", err)
